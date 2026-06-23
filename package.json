@@ -1,0 +1,16 @@
+{
+  "name": "claude-usage-graphic",
+  "version": "1.0.0",
+  "description": "Graphic based on Claude Code CLI usage",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-pty": "^1.1.0"
+  },
+  "devDependencies": {
+    "electron": "^42.4.1"
+  }
+}

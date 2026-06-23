@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Usage Vat</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Claude Usage</h1>
+        </header>
+        
+        <main>
+            <div class="vat-container">
+                <div class="usage-overlay" id="usage-text">0%</div>
+                <img src="superhero.png" alt="Superhero" class="superhero-img" id="superhero">
+                
+                <!-- The water element -->
+                <div class="water-container">
+                    <!-- Bubbles Container -->
+                    <div class="bubbles" id="bubbles-container"></div>
+                    <div class="water" id="water">
+                        <!-- Water surface waves -->
+                        <div class="wave wave1"></div>
+                        <div class="wave wave2"></div>
+                        <div class="wave wave3"></div>
+                    </div>
+                </div>
+            
+                <div class="stats-overlay" id="stats-overlay">
+                    Reset Time: <span id="reset-time-text">Loading...</span>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="slider-container" id="slider-container">
+                    <label for="manual-usage">Manual Usage Override (%):</label>
+                    <input type="range" id="manual-usage" min="0" max="100" value="0">
+                </div>
+                <div class="api-status" id="api-status">Connecting to Claude CLI...</div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

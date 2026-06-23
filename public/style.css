@@ -1,0 +1,294 @@
+:root {
+    --bg-color: #0d1117;
+    --text-color: #e6edf3;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --water-color: rgba(0, 150, 255, 0.6);
+    --water-dark: rgba(0, 100, 200, 0.8);
+    --water-glow: rgba(0, 150, 255, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at 50% 0%, #1a2233 0%, var(--bg-color) 70%);
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 800px;
+}
+
+header {
+    text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.usage-overlay {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 20px rgba(0, 210, 255, 0.8), 0 0 40px rgba(0, 100, 255, 0.6);
+    z-index: 40;
+    pointer-events: none;
+}
+
+/* Vat container and glass effect */
+.vat-container {
+    position: relative;
+    width: 300px;
+    height: 500px;
+    margin: 0 auto;
+    filter: drop-shadow(0 0 20px var(--water-glow));
+    -webkit-app-region: drag; /* Allow dragging the app from the vat */
+}
+
+.vat-glass {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    border-radius: 20px 20px 40px 40px; /* Slight curve at bottom */
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.05);
+    z-index: 10;
+}
+
+/* Add a glass reflection */
+.vat-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 20%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-15deg);
+    z-index: 30;
+    pointer-events: none;
+}
+
+/* Superhero Image */
+.superhero-img {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%; /* Takes up most of the vat */
+    height: 90%; /* Leaves space at top */
+    object-fit: contain;
+    object-position: bottom;
+    z-index: 15;
+    transition: all 1s ease;
+}
+
+.superhero-img.floating {
+    bottom: 30%;
+    width: 90%;
+    height: 60%;
+    object-position: center;
+    animation: floatBobbing 4s ease-in-out infinite;
+}
+
+@keyframes floatBobbing {
+    0% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
+    50% { transform: translateX(-50%) translateY(-15px) rotate(2deg); }
+    100% { transform: translateX(-50%) translateY(0) rotate(-2deg); }
+}
+
+/* Water Level */
+.water-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.water {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5%; /* Start at ankles (5%) */
+    background: linear-gradient(to bottom, var(--water-color) 0%, var(--water-dark) 100%);
+    transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -5px 20px var(--water-glow);
+}
+
+/* Water Waves Animation */
+.wave {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 200%;
+    height: 20px;
+    background-size: 50% 100%;
+    background-repeat: repeat-x;
+}
+
+.wave1 {
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 20" xmlns="http://www.w3.org/2000/svg"><path d="M0,10 Q25,0 50,10 T100,10 L100,20 L0,20 Z" fill="rgba(0, 150, 255, 0.5)"/></svg>');
+    animation: moveWaves 3s linear infinite;
+    z-index: 23;
+}
+
+.wave2 {
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 20" xmlns="http://www.w3.org/2000/svg"><path d="M0,10 Q25,20 50,10 T100,10 L100,20 L0,20 Z" fill="rgba(0, 100, 200, 0.5)"/></svg>');
+    animation: moveWaves 4s linear infinite reverse;
+    z-index: 22;
+    top: -5px;
+}
+
+.wave3 {
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 20" xmlns="http://www.w3.org/2000/svg"><path d="M0,10 Q25,5 50,10 T100,10 L100,20 L0,20 Z" fill="rgba(0, 150, 255, 0.8)"/></svg>');
+    animation: moveWaves 5s linear infinite;
+    z-index: 21;
+    top: -8px;
+}
+
+@keyframes moveWaves {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.slider-container {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #00d2ff;
+    cursor: pointer;
+    margin-top: -6px;
+    box-shadow: 0 0 10px #00d2ff;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: var(--glass-border);
+    border-radius: 2px;
+}
+
+.api-status {
+    font-size: 0.9rem;
+    color: #8b949e;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background: var(--glass-bg);
+}
+
+/* Bubbles */
+.bubbles {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 25;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -20px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: rise infinite ease-in;
+}
+
+@keyframes rise {
+    0% {
+        bottom: -20px;
+        transform: translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        bottom: 100%;
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+}
+
+/* Stats Overlay */
+.stats-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    z-index: 50;
+    pointer-events: none;
+    text-align: center;
+    white-space: nowrap;
+}
