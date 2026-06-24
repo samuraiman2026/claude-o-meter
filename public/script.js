@@ -69,8 +69,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    let pollTimeout;
+
     async function fetchClaudeUsage() {
-        if (isUsingManual) return; // Don't override if user is playing with slider
+        // Clear any existing timeout to prevent duplicate polling
+        clearTimeout(pollTimeout);
+        let nextInterval = 600000; // Default: 10 minutes (600,000 ms)
+
+        if (isUsingManual) {
+            // Still schedule the next check so it resumes polling later
+            pollTimeout = setTimeout(fetchClaudeUsage, nextInterval);
+            return;
+        }
 
         try {
             const response = await fetch('/api/usage');
@@ -93,6 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 checkNotifications(usage);
                 apiStatus.textContent = 'Live tracking Claude Code CLI';
                 apiStatus.style.color = '#7ee787'; // Green
+                
+                if (usage >= 70) {
+                    nextInterval = 300000; // 5 minutes (300,000 ms)
+                }
             } else {
                 apiStatus.textContent = 'CLI Rate Limited. Use manual slider.';
                 apiStatus.style.color = '#ff7b72'; // Red
@@ -101,6 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error fetching usage:', error);
             apiStatus.textContent = 'API connection failed. Using manual mode.';
             apiStatus.style.color = '#ff7b72'; // Red
+        } finally {
+            pollTimeout = setTimeout(fetchClaudeUsage, nextInterval);
         }
     }
 
@@ -142,9 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         bubblesContainer.appendChild(bubble);
     }
 
-    // Fetch immediately
+    // Fetch immediately. The function itself will schedule subsequent polling.
     fetchClaudeUsage();
-    
-    // Then poll every 15 minutes (900000 ms) instead of 5 minutes
-    setInterval(fetchClaudeUsage, 900000);
 });
