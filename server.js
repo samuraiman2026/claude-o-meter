@@ -25,6 +25,7 @@ app.get('/api/usage', (req, res) => {
         fs.writeFileSync('claude_output.log', stdout);
         
         let sessionUsage = null;
+        let sessionReset = null;
         let weekUsage = null;
         let weekReset = null;
 
@@ -34,6 +35,11 @@ app.get('/api/usage', (req, res) => {
         const sessionMatch = cleanStdout.match(/Current session:[^0-9]*(\d+)%/);
         if (sessionMatch && sessionMatch[1]) {
             sessionUsage = parseInt(sessionMatch[1], 10);
+        }
+
+        const sessionResetMatch = cleanStdout.match(/Current session.*resets\s+(.*?)(?:\n|$)/);
+        if (sessionResetMatch && sessionResetMatch[1]) {
+            sessionReset = sessionResetMatch[1].trim();
         }
 
         const weekMatch = cleanStdout.match(/Current week[^:]*:[^0-9]*(\d+)%/);
@@ -48,6 +54,7 @@ app.get('/api/usage', (req, res) => {
 
         res.json({
             sessionUsage,
+            sessionReset,
             weekUsage,
             weekReset
         });

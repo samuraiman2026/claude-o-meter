@@ -20,18 +20,20 @@ body {
     font-family: 'Outfit', sans-serif;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     background: radial-gradient(circle at 50% 0%, #1a2233 0%, var(--bg-color) 70%);
     overflow: hidden;
+    padding-top: 1rem;
 }
 
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
-    padding: 2rem;
+    gap: 1rem;
+    padding: 1rem;
     width: 100%;
     max-width: 800px;
 }
@@ -49,17 +51,18 @@ h1 {
     margin-bottom: 0.5rem;
 }
 
-.usage-overlay {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 5rem;
+.header-usage-text {
+    font-size: 3rem;
     font-weight: 700;
     color: rgba(255, 255, 255, 0.9);
     text-shadow: 0 0 20px rgba(0, 210, 255, 0.8), 0 0 40px rgba(0, 100, 255, 0.6);
-    z-index: 40;
-    pointer-events: none;
+    margin-top: -0.5rem;
+}
+
+.header-reset-time {
+    font-size: 0.9rem;
+    color: #8b949e;
+    margin-top: 0.5rem;
 }
 
 /* Vat container and glass effect */
@@ -104,11 +107,11 @@ h1 {
 /* Superhero Image */
 .superhero-img {
     position: absolute;
-    bottom: 0;
+    bottom: -2%;
     left: 50%;
     transform: translateX(-50%);
-    width: 80%; /* Takes up most of the vat */
-    height: 90%; /* Leaves space at top */
+    width: 150%; 
+    height: 100%; 
     object-fit: contain;
     object-position: bottom;
     z-index: 15;
@@ -276,19 +279,4 @@ input[type=range]::-webkit-slider-runnable-track {
     }
 }
 
-/* Stats Overlay */
-.stats-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 1rem;
-    z-index: 50;
-    pointer-events: none;
-    text-align: center;
-    white-space: nowrap;
-}
+

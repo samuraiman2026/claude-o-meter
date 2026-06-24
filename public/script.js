@@ -78,11 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const data = await response.json();
             
-            // We use weekUsage as the primary metric, fallback to sessionUsage
-            let usage = data.weekUsage !== null ? data.weekUsage : data.sessionUsage;
+            // We use sessionUsage as the primary metric, fallback to weekUsage
+            let usage = data.sessionUsage !== null ? data.sessionUsage : data.weekUsage;
             
-            if (data.weekReset) {
-                document.getElementById('reset-time-text').textContent = data.weekReset;
+            let resetTime = data.sessionReset ? data.sessionReset : data.weekReset;
+            if (resetTime) {
+                document.getElementById('reset-time-text').textContent = resetTime;
             } else {
                 document.getElementById('reset-time-text').textContent = "Unknown";
             }
