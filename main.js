@@ -51,13 +51,15 @@ app.whenReady().then(() => {
     
     const contextMenu = Menu.buildFromTemplate([
         { 
-            label: 'Show/Hide Widget', 
+            label: 'Show Widget', 
             click: () => {
-                if (mainWindow.isVisible()) {
-                    mainWindow.hide();
-                } else {
-                    mainWindow.show();
-                }
+                mainWindow.show();
+            } 
+        },
+        { 
+            label: 'Hide Widget', 
+            click: () => {
+                mainWindow.hide();
             } 
         },
         {
